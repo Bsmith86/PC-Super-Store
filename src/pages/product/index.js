@@ -33,7 +33,7 @@ const Product = () => {
        };
        let res = await axios({
         method:'PUT',
-        url: `/buy_product/${activeProduct._id}`,
+        url: `../buy_product/${activeProduct._id}`,
         data: buyProduct
         
 

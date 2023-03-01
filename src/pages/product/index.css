@@ -15,25 +15,25 @@ header {
     text-align: center;
 }
 
-
 .nav__links {
-    list-style-type: style none;
+  list-style-type: style none;
 }
 
 .nav__links li {
-    display:inline-flex;
-    padding: 0px 20px;
-    
+  display:inline-flex;
+  padding: 0px 20px;
+  
 }
 
 .nav__links li a {
-    transition: all 0.3s ease 0s;
-    border-radius: 10%;
+  transition: all 0.3s ease 0s;
+  border-radius: 10%;
 }
 
 .nav__links li a:hover {
-    color: #f9fc2d;
+  color: #f9fc2d;
 }
+
 h1 {
     text-align: center;
 }
