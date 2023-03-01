@@ -15,22 +15,13 @@ const Products = () => {
   console.log(location);
 
   useEffect(() => {
-    const getData = async () => {
-      let res = await axios({
-        method: "GET",
-        url: "/get_data"
-      })
-
-     let mongoItems = [...res.data];
-     
-     console.log(res);
-     setItems(mongoItems)
-
-    
-  
+    const getItems = async () => {
+      let response = await axios('/get_data')
+      let items = response.data;
+      setItems(items)
     }
-    getData()
-  }, []);
+    getItems()
+  }, [])
 
 
 
