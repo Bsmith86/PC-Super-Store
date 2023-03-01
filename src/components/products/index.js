@@ -16,7 +16,7 @@ const Products = () => {
 
   useEffect(() => {
     const getData = async () => {
-      let response = await axios({
+      let res = await axios({
         method: "GET",
         url: "/get_data"
       })
