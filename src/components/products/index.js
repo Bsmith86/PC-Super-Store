@@ -16,7 +16,10 @@ const Products = () => {
 
   useEffect(() => {
     const getData = async () => {
-     let res = await axios(`/get_data`)
+      let response = await axios({
+        method: "GET",
+        url: "/get_data"
+      })
 
      let mongoItems = [...res.data];
      
