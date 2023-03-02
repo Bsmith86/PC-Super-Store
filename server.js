@@ -146,7 +146,7 @@ app.get('/get_specific_product/:product_id', async (req, res) => {
 })
 
 // Search by name
-app.get('/product/:itemName', async (req, res) => {
+app.get('/product_by_name/:productName', async (req, res) => {
     let item = req.params.productName;
     console.log(item);
     let response = await Items.findOne({name: item})

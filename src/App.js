@@ -43,7 +43,7 @@ function App() {
               <Nav />
               <Routes>
                 <Route path="/" element={<HOME />}/>
-                <Route path='/product/:name' element={<Product />}/>
+                <Route path='/product/' element={<Product />}/>
                 <Route path='/edit/:name' element={<Edit />}/>
                 <Route path='/add' element={<AddProduct />}/>
                 {/* <Route path="/*" element={<Navigate to="/" />} /> */}

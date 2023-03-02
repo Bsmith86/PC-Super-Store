@@ -9,7 +9,8 @@ import { Link, useLocation } from 'react-router-dom';
 
 const Products = () => {
 
-  let [items, setItems] = useState([]);
+  const { activeProduct, setActiveProduct, items, setItems } = useContext(AppContext);
+  
   const navigate = useNavigate();
   const location = useLocation().pathname;
   console.log(location);
@@ -25,7 +26,7 @@ const Products = () => {
 
 
 
-  const { activeProduct, setActiveProduct } = useContext(AppContext);
+ 
   // let products = props.products;
   // when we render, we want to grab that array
   console.log(activeProduct);
@@ -34,16 +35,18 @@ const Products = () => {
     // console.log(items._id);
     setActiveProduct(items)
 console.log(activeProduct);
-    navigate(`/product/${items.name}`)
+    navigate(`/product/`)
     // Manually switch pages to coin/symbolOfItem
   
   }
 
   let productsJSX = items.map((el) => {
     return (
-      <div key={el.name} style={{backgroundColor: "rgba(9, 9, 191, 0.8)", padding: '20px 0', fontSize: '30px', color: '#edfa00' }} key={items._id} 
-      className={items.name === activeProduct ? "active" : 'default'}
-      onClick={() => handleClick(el)}>
+      <div 
+        key={el._id} 
+        style={{backgroundColor: "rgba(9, 9, 191, 0.8)", padding: '20px 0', fontSize: '30px', color: '#edfa00' }}
+        className={items.name === activeProduct ? "active" : 'default'}
+        onClick={() => handleClick(el)}>
         <h3 className="product_name" >{el.name}</h3>
          <img className='productPic' src={el.image} alt="" />
         <p className="product_price" >Price: ${el.price}</p>

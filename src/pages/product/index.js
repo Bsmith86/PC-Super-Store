@@ -6,7 +6,7 @@ import axios from 'axios';
 
 
 const Product = () => {
-    const { activeProduct, setActiveProduct } = useContext(AppContext);
+    const { activeProduct } = useContext(AppContext);
     const {image: image, price: price, inventory: inventory, name: name, description: description, inStock: inStock} = activeProduct;
     
     const navigate = useNavigate();

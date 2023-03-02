@@ -9,14 +9,16 @@ const AppContextProvider = (props) => {
     const [user, setUser] = useState(true);
     const [stuff, setStuff] = useState("This is some stuff")
     const [activeProduct, setActiveProduct] = useState('Intel Core i9-13900K')
- 
+    let [items, setItems] = useState([]);
     return (
         <AppContext.Provider value={{
             user, setUser,
 
             stuff, setStuff,
 
-            activeProduct, setActiveProduct
+            activeProduct, setActiveProduct,
+
+            items, setItems 
         }}>
             {props.children}
         </AppContext.Provider>
