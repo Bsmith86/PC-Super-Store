@@ -16,7 +16,7 @@ const Products = () => {
 
   useEffect(() => {
     const getItems = async () => {
-      let response = await fetch('/get_data');
+      let response = await axios('/get_data');
       let items = [...response.data];
       setItems(items)
     }
