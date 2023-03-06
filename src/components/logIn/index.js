@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { logIn, getUserFromSession } from '../../utilities/user-functions.js'
 import axios from 'axios'
-import { AppContext } from '../../contexts/app_context.js';
-
+import { AppContext } from '../../context/app_context.js';
+import { useNavigate } from "react-router-dom";
+import './index.css'
 const Login = () => {
 
     let { setUser } = useContext(AppContext);
-
+    const navigate = useNavigate();
     const [formState, setFormState] = useState({email: '', password: ''});
     const [error, setError] = useState("");
     const [disabled, setDisabled] = useState(true);
@@ -16,15 +17,15 @@ const Login = () => {
         setDisabled(formState.email && formState.password ? false : true);
     }, [formState])
 
-    useEffect(() => {
-      let autoLogin = async () => {
-        await logIn({email: "w@w", password: "qqq"});
-        // get session info (user)
-        let user = await getUserFromSession()
-        setUser(user);
-      }
-      autoLogin()
-    }, [])
+    // useEffect(() => {
+    //   let autoLogin = async () => {
+    //     await logIn({email: "BS@me.com", password: "hello"});
+    //     // get session info (user)
+    //     let user = await getUserFromSession()
+    //     setUser(user);
+    //   }
+    //   autoLogin()
+    // }, [])
 
     const handleChange = (event) => {
         let propertyName = event.target.name;
@@ -42,12 +43,13 @@ const Login = () => {
         // get session info (user)
         let user = await getUserFromSession()
         setUser(user);
+        navigate('/')
     }
 
   return (
     <div>
         <div className="form-container">
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        <form className='logIn' autoComplete="off" onSubmit={handleSubmit}>
             <label>Email</label>
             <input type="email" name="email" value={formState.email} onChange={handleChange} required />
             <label>Password</label>

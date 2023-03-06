@@ -4,11 +4,12 @@ const logger = require('morgan');
 // cross origin access 
 const cors = require('cors');
 const bcrypt = require('bcrypt');
-const Items = require('./models/items.js');
-// const User = require('./models/user.js')
-// const passport = require('passport');
-// const session = require('express-session');
-// const initializePassport = require('./config/passport-config')
+const {Items} = require('./models/items.js');
+const User = require('./models/user.js')
+const Order = require('./models/order')
+const passport = require('passport');
+const session = require('express-session');
+const initializePassport = require('./config/passport-config')
 
 
 require('dotenv').config();
@@ -29,25 +30,25 @@ app.use(logger('dev'))
 app.use(express.json())
 
 
-// initializePassport(
-//     passport,
-//     async email => {
-//         let user = User.findOne({email: email})
-//         return user;
-//     },
-//     async id => {
-//         let user = User.findById(id);
-//         return user;
-//     },
-// )
+initializePassport(
+    passport,
+    async email => {
+        let user = User.findOne({email: email})
+        return user;
+    },
+    async id => {
+        let user = User.findById(id);
+        return user;
+    },
+)
 
-// app.use(session({
-//     // secure: true,
-//     secret: process.env.SESSION_SECRET,
-//     resave: true,
-//     saveUninitialized: true,
-//     cookie: { originalMaxAge: 3600000}
-// }))
+app.use(session({
+    // secure: true,
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    cookie: { originalMaxAge: 3600000}
+}))
 
 // server build folder
 app.use(express.static(path.join(__dirname, 'build')));
@@ -56,51 +57,122 @@ app.use(express.static(path.join(__dirname, 'build')));
 //     res.send("good route!")
 // })
 
-// app.get('/session-info', (req, res) => {
-//     res.json({
-//         session: req.session
-//     })
-// })
+app.get('/session-info', (req, res) => {
+    res.json({
+        session: req.session
+    })
+})
 
-// app.post('/users/signup',async (req, res) => {
-//     console.log(req.body);
-//     let hashedPassword = await bcrypt.hash(req.body.password, 10)
-//     console.log(hashedPassword);
-//     // use User model to place user in the database
-//     let userFromCollection = await User.create({
-//         email: req.body.email,
-//         name: req.body.name,
-//         password: hashedPassword
-//     })
-//     console.log(userFromCollection);
-//     // sending user response after creation or login
-//     res.json("user created")
-// });
+app.post('/users/signup',async (req, res) => {
+    // console.log(req.body);
+    let hashedPassword = await bcrypt.hash(req.body.password, 10)
+    // console.log(hashedPassword);
+    // use User model to place user in the database
+    let userFromCollection = await User.create({
+        email: req.body.email,
+        name: req.body.name,
+        password: hashedPassword
+    })
+    // console.log(userFromCollection);
+    // sending user response after creation or login
+    res.json("user created")
+});
 
 
-// app.put('/users/login', async (req, res, next) => {
-//     console.log(req.body);
-//     passport.authenticate('local', (err, user) => {
-//         // console.log(message);
-//         if (err) throw err;
-//         if (!user) {
-//             res.json({
-//                 message: "login failed",
-//                 user: false
-//             })
-//         } else {
-//             //delete user.password;
-//             req.logIn(user, err =>{
-//                 if (err) throw err;
-//                 res.json({
-//                     message: "successfully authenticated",
-//                     //remove user
-//                 })
-//             })
-//         }
-//     }) (req, res, next)
+app.put('/users/login', async (req, res, next) => {
+    console.log(req.body);
+    passport.authenticate('local', (err, user) => {
+        // console.log(message);
+        if (err) throw err;
+        if (!user) {
+            res.json({
+                message: "login failed",
+                user: false
+            })
+        } else {
+            //delete user.password;
+            req.logIn(user, err =>{
+                if (err) throw err;
+                res.json({
+                    message: "successfully authenticated",
+                    //remove user
+                })
+            })
+        }
+    }) (req, res, next)
 
-// })
+})
+
+app.get("/get_cart", async (req, res) => {
+    // get cart/order from database
+    console.log(req.session);
+    let cart = await Order.getCart(req.session.passport.user._id);
+    // console.log(cart);
+    res.json(cart)
+})
+
+// for the "add" button
+
+app.put('/add_to_cart/:itemId', async (req, res) => {
+    let { itemId } = req.params;
+    let userId = req.session.passport.user._id;
+    let cart = await Order.getCart(userId);
+    // console.log(cart); 
+    // check if orderItems already has this item (the we will +1)
+    // if not, add it to the array
+    const orderItem = cart.orderItems.find(orderItem => orderItem.item._id.equals(itemId))
+
+    if (orderItem) {
+        orderItem.qty += 1;
+    } else {
+        const item = await Items.findById(itemId);
+        console.log(item);
+        cart.orderItems.push({
+            qty: 1,
+            item
+        });
+    }
+
+    cart.save()
+    res.send(cart)
+})
+
+app.put('/change_qty', async (req, res) => {
+    let { itemId, newQty } = req.body;
+    let userId = req.session.passport.user._id;
+    console.log(itemId, newQty, userId);
+
+    let cart = await Order.getCart(userId); // checkoutDone false
+    const orderItem = cart.orderItems.find(orderItem => {
+        console.log(orderItem.item, itemId);
+        if (orderItem.item._id.equals(itemId)) {
+            return orderItem
+        }
+        
+    })
+    console.log(orderItem);
+    orderItem.qty = newQty;
+
+    // check if qty is 0
+    if (orderItem.qty === 0) {
+        orderItem.remove();
+    }
+
+    cart.save()
+
+    res.send(cart)
+})
+
+
+app.put("/checkout", async (req, res) => {
+    let cart = await Order.getCart(req.session.passport.user._id);
+
+    cart.checkoutDone = true;
+    cart.save()
+
+    res.send(cart)
+
+})
 
 // Create Product
 app.post('/create_product', async (req,res) => {
@@ -170,13 +242,7 @@ app.delete("/delete_product/:productId", async (req, res) => {
     let update = req.body
     console.log(req.body);
     let response = await Items.findByIdAndUpdate(item, update,{new:true}
-    //   {name: req.body.name,
-    //     description: req.body.description,
-    //     image: req.body.image,
-    //     price: req.body.priceNumber,
-    //     inventory: req.body.inventoryNumber,
-    //     inStock: req.body.inStock},
-    //    {new: true} 
+   
     );
     console.log("response from collection: ", response);
     res.json(response);

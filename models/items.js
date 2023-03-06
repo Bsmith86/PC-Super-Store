@@ -10,9 +10,9 @@ const itemsSchema = new mongoose.Schema({
     name: String,
     inStock: Boolean,
     description: String
-})
+}, {timestamps: true})
 
 const Items = mongoose.model('Items', itemsSchema)
 
 
-module.exports = Items;
+module.exports = {itemsSchema,Items};

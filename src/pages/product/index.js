@@ -6,10 +6,25 @@ import axios from 'axios';
 
 
 const Product = () => {
-    const { activeProduct } = useContext(AppContext);
-    const {image: image, price: price, inventory: inventory, name: name, description: description, inStock: inStock} = activeProduct;
-    
+    const { activeProduct, setCart } = useContext(AppContext);
+    const { image: image, price: price, inventory: inventory, name: name, description: description, inStock: inStock} = activeProduct;
     const navigate = useNavigate();
+
+    
+
+    const handleAddToCart = async () => {
+      // make an axios call to add an item to the order
+      let res = await axios({
+        method: "PUT",
+        url: `/add_to_cart/${activeProduct._id}`
+        
+      })
+      console.log(res);
+      if (res.data._id) {
+        setCart(res.data)
+      }
+
+    };
 
     const handleBuy = async (e)  => {
         // Buy Function
@@ -87,7 +102,7 @@ console.log(inStock);
        <p className="price" >Price: ${price}</p> 
        <p className="inventory">{inventory} Left</p>
        <p id="inStock">In Stock:{inStock}</p> 
-       <button className="buy" onClick={(e) => handleBuy(e)}>Buy</button><button onClick={() => handleEdit()} className="edit">Edit</button>
+       <button className="addToCart" onClick={(e) => handleAddToCart(e)}>Add</button><button onClick={() => handleEdit()} className="edit">Edit</button>
     </div>
   )
 }

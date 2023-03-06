@@ -6,19 +6,30 @@ export const AppContext = createContext();
 const AppContextProvider = (props) => {
     // put our state
 
-    const [user, setUser] = useState(true);
-    const [stuff, setStuff] = useState("This is some stuff")
-    const [activeProduct, setActiveProduct] = useState('Intel Core i9-13900K')
-    let [items, setItems] = useState([]);
+    const [user, setUser] = useState(false);
+    const [activeProduct, setActiveProduct] = useState('')
+    const [items, setItems] = useState([]);
+    const [cart, setCart] = useState(
+        {
+            orderId: "",
+            checkoutDone: false,
+            updatedAt: "",
+            orderItems:[],
+            totalQty: 0,
+            orderTotal: 0,
+        }
+    );
+
+
     return (
         <AppContext.Provider value={{
             user, setUser,
 
-            stuff, setStuff,
-
             activeProduct, setActiveProduct,
 
-            items, setItems 
+            items, setItems,
+
+            cart, setCart
         }}>
             {props.children}
         </AppContext.Provider>

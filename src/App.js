@@ -2,6 +2,7 @@ import './App.css';
 import { useEffect, useState, useContext } from 'react'; 
 import Auth from './pages/auth'
 import HOME from './pages/home';
+import Checkout from './pages/Cart';
 import AddProduct from './pages/add_product';
 import Edit from './pages/edit';
 import Product from './pages/product';
@@ -11,28 +12,49 @@ import { getUserFromSession } from './utilities/user-functions';
 import { AppContext } from './context/app_context';
 import Loader from "react-js-loader";
 import Footer from './components/footer';
+import axios from 'axios';
+
 
 
 function App() {
 
   const [callWasMade, setCallWasMade] = useState(true);
 
-  // let { user, setUser } = useContext(AppContext);
+  const { user, setUser, setCart } = useContext(AppContext);
 
-  let user = 'Guest'
+  // let user = 'Guest'
 
   // this will only run when we first open our app, or refresh the page
 
-  // useEffect(() => {
-  //   const getSession =  async () => {
+  useEffect(() => {
+    const getSession =  async () => {
 
-  //     let userResponse = await getUserFromSession();
-  //     setUser(userResponse)
-  //     setCallWasMade(true)
-  //   }
-  //     getSession();
+      let userResponse = await getUserFromSession();
+      console.log({userResponse});
+      setUser(userResponse)
+      setCallWasMade(true)
+    }
+      getSession();
 
-  // }, []);
+  }, []);
+
+  useEffect(() => {
+    const getCart = async () => {
+      console.log({user});
+      if (user) {
+        // make call to database to get order
+        let response = await axios({
+            method: "GET",
+            url: "/get_cart"
+          })
+          setCart(response.data)
+      }
+    }
+    if (user) {
+      getCart()
+    }
+  }, [user])
+
 
   const returnPage = () => {
     if (callWasMade) {
@@ -44,6 +66,8 @@ function App() {
               <Routes>
                 <Route path="/" element={<HOME />}/>
                 <Route path='/product/' element={<Product />}/>
+                <Route path='/checkout/' element={<Checkout />}/>
+                {/* <Route path='/cart/' element={<Cart />}/> */}
                 <Route path='/edit/:name' element={<Edit />}/>
                 <Route path='/add' element={<AddProduct />}/>
                 {/* <Route path="/*" element={<Navigate to="/" />} /> */}

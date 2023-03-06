@@ -1,12 +1,18 @@
 import React, { useContext } from 'react'
 import './index.css'
 import { useNavigate } from "react-router-dom";
-import SearchBar from '../search_bar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {useState} from 'react'
 import { AppContext } from '../../context/app_context';
+import LogOut from '../logout';
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
 
 const Nav = () => {
-    const {items, setActiveProduct} = useContext(AppContext)
+    const {items, setActiveProduct, cart} = useContext(AppContext)
     const navigate = useNavigate();
     const [query, setQuery] = useState('');
 
@@ -14,6 +20,10 @@ const Nav = () => {
     const handleHomeClick = () => {
         console.log('clicked Home');
         navigate(`/`)
+    }
+    const handleCart = () => {
+        console.log('clicked Cart');
+        navigate(`/checkout`)
     }
     const handleAddClick = () => {
         console.log('clicked add');
@@ -46,13 +56,14 @@ const Nav = () => {
                     {/* <SearchBar /> */}
                 </li>
             </ul>
+            <LogOut />
             <div className="cart">
-                <a href="./cart/index.html"><i className="bi bi-cart2"></i></a>
-                <div className="cartAmount">0</div>
+            <a id="home" src="#"><h1 onClick={() => handleCart()}>CART</h1></a>
+                <div className="cartAmount">{cart.totalQty}</div>
             </div> 
                 
             
-        </nav>      
+        </nav>     
    
   )
 }

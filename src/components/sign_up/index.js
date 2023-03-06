@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { signUp } from '../../utilities/user-functions.js'
+import { useNavigate } from "react-router-dom";
 
 export default class SignUpForm extends Component {
+  
     state = {
         name: '',
         email: '',
@@ -16,6 +18,7 @@ export default class SignUpForm extends Component {
             error: ''
         });
       };
+      
       handleSubmit = async (event) => {
         event.preventDefault(); // do not refresh the page
         console.log("submitting!");
@@ -26,9 +29,8 @@ export default class SignUpForm extends Component {
  
         let response = await signUp(data);
         console.log(response);
-
-        // make async call to server with the data
-        // in a different file - we will bring in that function here
+        useNavigate('/')
+       
       }
 
 

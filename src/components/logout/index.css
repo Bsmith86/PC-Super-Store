@@ -1,0 +1,10 @@
+.user-logout {
+    display: inline-flex
+}
+
+.user {
+    display: flex;
+    align-self: center;
+    font-family: cursive;
+    font-weight: 900;
+}

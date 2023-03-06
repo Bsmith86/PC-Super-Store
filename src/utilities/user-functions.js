@@ -1,5 +1,5 @@
 import axios from 'axios';
-// utilites folder is for universal, reusable functions
+// utilities folder is for universal, reusable functions
 export const signUp = async (formData) => {
 
         let serverResponse = await axios({

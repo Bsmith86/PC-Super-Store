@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState  } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { AppContext } from '../../context/app_context'
 import './index.css'
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -21,6 +21,9 @@ const Products = () => {
       let items = [...response.data];
       setItems(items)
     }
+
+    
+
     getItems()
   }, [])
 
