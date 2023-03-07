@@ -1,11 +1,15 @@
 import React from 'react'
 
 const Footer = () => {
+ 
+  
+ 
+ 
   return (
     <div className='footer'>
       <div className="social">
-        <i className="fa fa-github" aria-hidden="true"></i>
-        <i className="fa fa-linkedin-square" aria-hidden="true"></i>
+        <a href="https://github.com/Bsmith86"><i className="fa fa-github" aria-hidden="true"></i></a>
+        <a href="https://www.linkedin.com/in/brandon-smith-403b5b225/"> <i className="fa fa-linkedin-square" aria-hidden="true"></i></a>
       </div>
       
 

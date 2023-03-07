@@ -14,14 +14,30 @@ const Product = () => {
 
     const handleAddToCart = async () => {
       // make an axios call to add an item to the order
+      
+      let newNumber = inventory -1
+   let inStock = newNumber == 0 ? false : true
+
+     console.log(newNumber);
+   
+    if(inStock == false){
+        inStock.innerHTML = "Out Of Stock"
+    }
+    const addToCart = {
+      newNumber,
+      inStock
+  };
+      
       let res = await axios({
         method: "PUT",
-        url: `/add_to_cart/${activeProduct._id}`
+        url: `/add_to_cart/${activeProduct._id}`,
+        // data: addToCart
         
       })
       console.log(res);
       if (res.data._id) {
         setCart(res.data)
+      
       }
 
     };

@@ -6,6 +6,7 @@ import {useState} from 'react'
 import { AppContext } from '../../context/app_context';
 import LogOut from '../logout';
 
+
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -58,7 +59,7 @@ const Nav = () => {
             </ul>
             <LogOut />
             <div className="cart">
-            <a id="home" src="#"><h1 onClick={() => handleCart()}>CART</h1></a>
+                <i className="fa-solid fa-shop" onClick={() => handleCart()}></i>                
                 <div className="cartAmount">{cart.totalQty}</div>
             </div> 
                 

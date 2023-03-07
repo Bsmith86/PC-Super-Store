@@ -13,10 +13,10 @@ const LogOut = () => {
   return (
     <div className='user-logout'>
         <div className='user'>
-            {user.name || "Guest"}
+            <i class="fa-solid fa-user"></i>  {user.name || "Guest"}
         </div>
         <button className="btn-sm" onClick={handleLogout}>
-            LOG OUT
+             LOG OUT
         </button>
     </div>
   )

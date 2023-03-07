@@ -254,6 +254,18 @@ app.delete("/delete_product/:productId", async (req, res) => {
     res.json(response);
   });
  
+  // Update Stock
+ app.put('/update_stock/:product_id', async (req, res) => {
+    let item = req.params.product_id;
+    let update = req.body
+    console.log(req.body);
+    let response = await Items.findByIdAndUpdate(item, update,{new:true}
+   
+    );
+    console.log("response from collection: ", response);
+    res.json(response);
+  });
+ 
   // Buy function
  app.put('/buy_product/:product_id', async (req, res) => {
     let id = req.params.product_id;

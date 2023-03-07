@@ -17,7 +17,12 @@ const Cart = ({handleChangeQty, cart, setCart}) => {
         return <CartItem cartItem={cartItem} checkoutDone={cart.checkoutDone}  key={cartItem._id}/>
     })
 
-    const handleCheckout = async () => {
+    const handleCheckout = async (e) => {
+        
+        console.log(e);
+        // let newNumber = inventory -1
+        // let inStock = newNumber == 0 ? false : true
+
         let response = await axios({
             method: "PUT",
             url: "/checkout",
@@ -50,7 +55,7 @@ const Cart = ({handleChangeQty, cart, setCart}) => {
                 {cart.checkoutDone ? 
                 <span>TOTAL</span>
                 :
-                <button className="btn-sm" onClick={handleCheckout}>Checkout</button>    
+                <button className="btn-sm" onClick={(e) => handleCheckout()}>Checkout</button>    
                 }
                 <span className='cartQty'>{cart.totalQty}</span>
                 <span className="right">{cart.orderTotal}</span>
