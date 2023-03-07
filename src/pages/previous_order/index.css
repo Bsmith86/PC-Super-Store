@@ -1,0 +1,6 @@
+.pOrders {
+    display: grid;
+    background-color: rgb(242, 215, 161);
+    border: 4px black solid;
+    font-family:Georgia, 'Times New Roman', Times, serif
+}
