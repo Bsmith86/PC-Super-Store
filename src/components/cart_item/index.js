@@ -23,7 +23,6 @@ const CartItem = ({cartItem, checkoutDone}) => {
 
     return (
         <div className={"LineItem"}>
-          <div className="flex-ctr-ctr">{cartItem.item.emoji}</div>
           <div className="flex-ctr-ctr flex-col">
             <span className="align-ctr">{cartItem.item.name}</span>
             <span className="align-ctr"><img className='cartPic' src={cartItem.item.image} alt="" /></span>

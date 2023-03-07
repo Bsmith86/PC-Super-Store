@@ -50,6 +50,8 @@ app.use(session({
     cookie: { originalMaxAge: 3600000}
 }))
 
+app.use(passport.session());    
+
 // server build folder
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -101,6 +103,10 @@ app.put('/users/login', async (req, res, next) => {
         }
     }) (req, res, next)
 
+})
+app.get('/get_orders', async (req, res) => {
+    let orders = await Order.find()
+    res.json(orders)
 })
 
 app.get("/get_cart", async (req, res) => {

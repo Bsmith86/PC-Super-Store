@@ -1,0 +1,5 @@
+.orderSwitch {
+    display: inline-flex;
+    justify-self: right;
+    align-self: flex-start;
+}

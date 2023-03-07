@@ -13,6 +13,7 @@ import { AppContext } from './context/app_context';
 import Loader from "react-js-loader";
 import Footer from './components/footer';
 import axios from 'axios';
+import Previous from './pages/previous_order';
 
 
 
@@ -20,7 +21,7 @@ function App() {
 
   const [callWasMade, setCallWasMade] = useState(true);
 
-  const { user, setUser, setCart } = useContext(AppContext);
+  const { user, setUser, setCart, setOrders } = useContext(AppContext);
 
   // let user = 'Guest'
 
@@ -42,6 +43,15 @@ function App() {
     const getCart = async () => {
       console.log({user});
       if (user) {
+
+        let ordersResponse = await axios({
+          method: 'GET',
+          url: '/get_orders'
+        })
+        console.log(ordersResponse.data)
+        setOrders(ordersResponse.data)
+
+
         // make call to database to get order
         let response = await axios({
             method: "GET",
@@ -67,7 +77,7 @@ function App() {
                 <Route path="/" element={<HOME />}/>
                 <Route path='/product/' element={<Product />}/>
                 <Route path='/checkout/' element={<Checkout />}/>
-                {/* <Route path='/cart/' element={<Cart />}/> */}
+                <Route path='/previous/' element={<Previous />}/>
                 <Route path='/edit/:name' element={<Edit />}/>
                 <Route path='/add' element={<AddProduct />}/>
                 {/* <Route path="/*" element={<Navigate to="/" />} /> */}

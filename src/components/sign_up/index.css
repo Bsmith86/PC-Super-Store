@@ -1,4 +1,4 @@
-form {
+.signUp {
     display: grid;
     grid-template-columns: 1fr 3fr;
     gap: 1.25vmin;
@@ -8,4 +8,4 @@ form {
     background-color: rgb(240, 243, 78);
     border-radius: 20%;
     margin-top: 400px;
-  }
+}

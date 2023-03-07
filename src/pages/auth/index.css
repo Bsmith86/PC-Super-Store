@@ -9,4 +9,9 @@
 .login-button {
     cursor: pointer;
     padding: 8px
+    
+}
+
+.logo-container {
+    margin-top: 250px;
 }
