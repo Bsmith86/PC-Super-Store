@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {useState} from 'react'
 import { AppContext } from '../../context/app_context';
 import LogOut from '../logout';
+import Fuse from 'fuse.js';
 
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -32,17 +33,34 @@ const Nav = () => {
     }
     const handleSearch = () => {
         console.log(query);
-        // 
-        items.forEach((el) => {
-            if (el.name == query) {
-                console.log(el.name);
-                setActiveProduct(el)
-                navigate(`/product/`)
-            }
+        const fuse = new Fuse(items, {
+            keys: [
+                'name',
+                'id'
+            ],
+            includeScore: true
         })
+    
+        const results = fuse.search(query);
+         setActiveProduct(results[0].item)
+                navigate(`/product`)
+            
+        
     }
     
+    const fuse = new Fuse(items, {
+        keys: [
+            'name',
+            'id'
 
+        ],
+        includeScore: true
+    })
+
+    const results = fuse.search(query);
+    // const itemsResults = query ? results.map(result => result.item) : items;
+
+    console.log(results[0]);
     return (
     
        <nav id="navbar">
